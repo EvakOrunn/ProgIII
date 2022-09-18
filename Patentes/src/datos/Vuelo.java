@@ -10,7 +10,6 @@ import excepciones.*;
 import java.io.*;
 import persistencia.*;
 import principal.DestinosMenu;
-import principal.VuelosMenu;
 
 public class Vuelo implements Grabable {
 

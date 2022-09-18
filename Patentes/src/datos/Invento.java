@@ -5,6 +5,7 @@ import java.io.*;
 import persistencia.*;
 import principal.InventosMenu;
 import excepciones.*;
+import principal.PersonalMenu;
 
 /**
  *
@@ -143,9 +144,10 @@ public class Invento implements Grabable{
     private void cargarCodigoPersonal() {
         int axCod;
         do {            
-            System.out.println("Codigo Personal:");
+            System.out.print("Codigo Personal:");
             axCod = Consola.readInt();
-        } while (InventosMenu.obtener(axCod) == null);
+        } while (PersonalMenu.obtener(axCod) == null);
+        this.codigoPersonal = axCod;
     }
 
     public void modificarDatosInvento() {

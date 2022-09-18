@@ -198,7 +198,6 @@ public class VuelosMenu {
 
     public static void menu() {
         int op;
-        Registro reg;
 
         do {
             System.out.println("----------------------------------");

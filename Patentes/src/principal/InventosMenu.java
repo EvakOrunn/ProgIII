@@ -135,7 +135,7 @@ public class InventosMenu {
     }
 
     public static void cargar() {
-        if (DestinosMenu.cantidad() == 0) {
+        if (PersonalMenu.cantidad() == 0) {
             System.out.println("No hay Inventos disponibles.");
             Consola.pausa();
             return;

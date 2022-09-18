@@ -85,17 +85,18 @@ public class PersonalMenu {
         return reg;
     }
 
-    public static Destino obtener(int codigo) {
+    public static Personal obtener(int codigo) {
         m2.abrirParaLectura();
         m2.buscarRegistro(codigo);
         if (m2.eof()) {
             return null;
         }
+        
         Registro reg = m2.leerRegistro();
         if (!reg.getActivo()) {
             return null; // El registro no esta activo
         }
-        Destino art = (Destino) reg.getDatos();
+        Personal art = (Personal) reg.getDatos();
         m2.cerrarArchivo();
 
         return art;

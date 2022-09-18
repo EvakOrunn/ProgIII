@@ -1,10 +1,14 @@
 package principal;
 
+import customException.NumeroNegativoExcepcion;
 import persistencia.*;
 import datos.*;
 import entradaDatos.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Principal {
+    
     private static Archivo m2;
 
     /**
@@ -14,7 +18,6 @@ public class Principal {
      * cargados los registros incluyendo los vacios o los borrados
      */
     public static void mostrarTodo() {
-
         Registro reg;
         m2.abrirParaLeerEscribir();
         m2.irPrincipioArchivo();
@@ -29,7 +32,7 @@ public class Principal {
         int contador = 0;
         int caracteres = 88; // Caracteres de la tabla. Cambiar para ajustar ancho de lineas
         System.out.println("-".repeat(caracteres)); // Se puede llamar a un metodo sobre el string ya que es un objeto
-        System.out.println("| Codigo | Descripcion\t\t\t\t\t      | Cod. Rubro | Precio    |");
+        System.out.println("| Codigo Med. | Descripcion\t\t\t\t\t      | Fecha Venc | Precio    | Stock | Tipo Med. |");
         System.out.println("-".repeat(caracteres));
         m2.abrirParaLectura();
         m2.irPrincipioArchivo();
@@ -56,7 +59,7 @@ public class Principal {
         Medicamento art = new Medicamento();
         int codigo;
         do {
-            System.out.print("Codigo--> ");
+            System.out.print("Codigo Medicamento--> ");
             codigo = Consola.readInt();
             if (obtenerArticulo(codigo) != null) {
                 System.out.println("Codigo ya existente.");
@@ -64,13 +67,17 @@ public class Principal {
                              // codigo
             }
         } while (codigo < 0 || codigo > art.tamArchivo());
-        art.setCodigoMedicamento(codigo);
+        try {
+            art.setCodigoMedicamento(codigo);
+        } catch (NumeroNegativoExcepcion ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         art.cargarDatos();
-        Registro reg = new Registro(art, art.getCodigo()); // Aqui es donde se indica que la clave principal es "Codigo"
+        Registro reg = new Registro(art, art.getCodigoMedicamento()); // Aqui es donde se indica que la clave principal es "Codigo"
         return reg;
     }
 
-    public static Medicamento obtenerArticulo(int codigo) {
+    public static Articulo obtenerArticulo(int codigo) {
         m2.abrirParaLectura();
         m2.buscarRegistro(codigo);
         if (m2.eof()) {
@@ -80,7 +87,7 @@ public class Principal {
         if (!reg.getActivo()) {
             return null; // El registro no esta activo
         }
-        Medicamento art = (Medicamento) reg.getDatos();
+        Articulo art = (Articulo) reg.getDatos();
         m2.cerrarArchivo();
 
         return art;
@@ -121,7 +128,7 @@ public class Principal {
 
         Registro reg = m2.leerRegistro(); // Lee el registro existente
         Medicamento art = (Medicamento) reg.getDatos();
-        art.modificarDatos();
+        art.cargarDatos();
         reg.setDatos(art);
         m2.cargarUnRegistro(reg); // Sobreescribe el registro ya existente
 
@@ -133,9 +140,9 @@ public class Principal {
 
     public static void main(String[] args) {
         try {
-            m2 = new Archivo("Articulos.dat", new Medicamento());
+            m2 = new Archivo("Medicamento.dat", new Medicamento());
         } catch (ClassNotFoundException e) {
-            System.out.println("Error al crear los descriptores de archivos: " + e.getMessage());
+            System.out.println("Error al crear los descriptores del archivo Medicamento: " + e.getMessage());
             System.exit(1);
         }
 
@@ -143,7 +150,16 @@ public class Principal {
         Registro reg;
 
         do {
-            menuPrincipal();
+            System.out.println("------------------------------------");
+            System.out.println("-          MENU PRINCIPAL          -");
+            System.out.println("------------------------------------");
+            System.out.println("- 1. Alta de Medicamentos          -");
+            System.out.println("- 2. Baja de Medicamento (lógica)  -");
+            System.out.println("- 3. Modificacion de Medicamento   -");
+            System.out.println("- 4. Listar Medicamentos activos   -");
+            System.out.println("- 0. Salir                         -");
+            System.out.println("------------------------------------");
+            System.out.print("--> ");
             op = Consola.readInt();
             switch (op) {
                 case 1:
@@ -160,18 +176,5 @@ public class Principal {
                     break;
             }
         } while (op != 0);
-    }
-
-    private static void menuPrincipal(){
-        System.out.println("--------------------------------------------");
-        System.out.println("-              Menu Principal              -");
-        System.out.println("--------------------------------------------");
-        System.out.println("- 1) Alta de Medicamento                   -");
-        System.out.println("- 2. Baja de Medicamento (lógica)          -");
-        System.out.println("- 3. Modificacion de Medicamento           -");
-        System.out.println("- 4. Listar Medicamentos activos           -");
-        System.out.println("- 0. Salir                                 -");
-        System.out.println("--------------------------------------------");
-        System.out.print("--> ");
     }
 }

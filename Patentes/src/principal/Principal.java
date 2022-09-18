@@ -31,10 +31,10 @@ public class Principal {
             op = Consola.readInt();
             switch (op) {
                 case 1:
-                    VuelosMenu.menu();
+                    PersonalMenu.menu();
                     break;
                 case 2:
-                    DestinosMenu.menu();
+                    InventosMenu.menu();
                     break;
             }
         } while (op != 0);
