@@ -5,48 +5,48 @@ import java.io.*;
 import persistencia.*;
 import excepciones.*;
 
-public class Curso implements Grabable{
+public class Curso implements Grabable {
 
-	private int codigoCurso;
-	private String nombreCurso;
+    private int codigoCurso;
+    private String nombreCurso;
 
-	private static int TAMAREG = 44;
-	private static int TAMARCHIVO = 100;
+    private static int TAMAREG = 44;
+    private static int TAMARCHIVO = 100;
 
-	public Curso() {
-		this.codigoCurso = -1;
-		this.nombreCurso = "";
-	}
+    public Curso() {
+        this.codigoCurso = -1;
+        this.nombreCurso = "";
+    }
 
-	public Curso(int codigoCurso, String nombreCurso) {
-		this.codigoCurso = codigoCurso;
-		this.nombreCurso = nombreCurso;
-	}
+    public Curso(int codigoCurso, String nombreCurso) {
+        this.codigoCurso = codigoCurso;
+        this.nombreCurso = nombreCurso;
+    }
 
-	public void setCodigoCurso(int codigoCurso) {
-		this.codigoCurso = codigoCurso;
-	}
+    public void setCodigoCurso(int codigoCurso) {
+        this.codigoCurso = codigoCurso;
+    }
 
-	public void setNombreCurso(String nombreCurso) throws CadenaLargaExcepcion, CadenaVaciaExcepcion {
-		if(nombreCurso.trim() == 0) {
-			throw new CadenaVaciaExcepcion();
-		} else {
-			if (nombreCurso.trim() > 40) {
-				throw new CadenaLargaExcepcion();
-			}
-		}
-		this.nombreCurso = nombreCurso;
-	}
+    public void setNombreCurso(String nombreCurso) throws CadenaLargaExcepcion, CadenaVaciaExcepcion {
+        if (nombreCurso.trim().length() == 0) {
+            throw new CadenaVaciaExcepcion();
+        } else {
+            if (nombreCurso.trim().length() > 40) {
+                throw new CadenaLargaExcepcion();
+            }
+        }
+        this.nombreCurso = nombreCurso;
+    }
 
-	public int getCodigoCurso() {
-		return codigoCurso;
-	}
+    public int getCodigoCurso() {
+        return codigoCurso;
+    }
 
-	public String getNombreCurso() {
-		return nombreCurso;
-	}
+    public String getNombreCurso() {
+        return nombreCurso;
+    }
 
-	/**
+    /**
      * Calcula el tamaño en bytes del objeto, tal como será grabado. Pedido por
      * Grabable
      *
@@ -58,8 +58,8 @@ public class Curso implements Grabable{
     }
 
     /**
-     * Devuelve la cantidad de registros que debe haber en el archivo. Pedido por
-     * Grabable
+     * Devuelve la cantidad de registros que debe haber en el archivo. Pedido
+     * por Grabable
      *
      * @return cantidad de registros
      */
@@ -144,22 +144,22 @@ public class Curso implements Grabable{
     }
 
     private void cargarNombreCurso() {
-    	boolean flag = false;
-    	while(!flag) {
-    		try {
-    			System.out.print("Nombre del Curso:");
-    			String axNom = Consola.readLine();
-    			setNombreCurso(axNom);
-    			flag = true;
-    		} catch (CadenaLargaExcepcion | CadenaVaciaExcepcion e) {
-    			System.out.println("Error:" + e.getMessage());
-    		}
-    	}
+        boolean flag = false;
+        while (!flag) {
+            try {
+                System.out.print("Nombre del Curso:");
+                String axNom = Consola.readLine();
+                setNombreCurso(axNom);
+                flag = true;
+            } catch (CadenaLargaExcepcion | CadenaVaciaExcepcion e) {
+                System.out.println("Error:" + e.getMessage());
+            }
+        }
     }
 
     @Override
     public void cargarDatos() {
         cargarNombreCurso();
-    }	
+    }
 
 }

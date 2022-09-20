@@ -110,6 +110,7 @@ public class Consola {
         System.out.println("Pulse ENTER para continuar...");
         readLine();
     }
+    
     public static String repeat(String car, int tam){
         String s="";
         for(int i=0;i<tam;i++){
